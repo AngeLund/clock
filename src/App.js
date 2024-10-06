@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Clock from "./Component/Clock";
+import { useState } from "react";
+import { useEffect } from "react";
 
 function App() {
+  const timeNewDate = new Date();
+  const [currentTime, setcurrentTime] = useState(
+    `${timeNewDate.getHours()}:${timeNewDate.getMinutes()}:${timeNewDate.getSeconds()}`
+  );
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      const newerTime = new Date();
+      setcurrentTime(
+        `${newerTime.getHours()}:${newerTime.getMinutes()}:${newerTime.getSeconds()}`
+      );
+    }, 1000);
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Clock time={currentTime} />
     </div>
   );
 }
